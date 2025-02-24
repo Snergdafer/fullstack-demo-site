@@ -14,15 +14,13 @@ export const login = (body, setToken, setUserId) =>
     Cookies.set("token", response.data.access_token, { secure: true });
   });
 
-export const register = (body, setToken, setUserId) =>
+export const register = (body, setSuccess) =>
   axios({
     method: "post",
     url: `${baseUrl}/authentication/register`,
     data: body,
   }).then((response) => {
-    console.log("REGISTER", response.data);
-    setToken(response.data.access_token);
-    setUserId(response.data.user_id);
+    setSuccess(response.data.Ok);
   });
 
 export const logout = () =>

@@ -6,7 +6,22 @@ const Login = ({ setToken, setUserId }) => {
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  const handleFormToggle = () => {
+    setError("");
+    setSuccess(false);
+    setIsRegistering(!isRegistering);
+  };
+
+  const handleSetSuccess = (value) => {
+    setError("");
+    setSuccess(value);
+    if (value) {
+      setIsRegistering(false);
+    }
+  };
 
   const handleLoginClick = () => {
     setError("");
@@ -28,13 +43,8 @@ const Login = ({ setToken, setUserId }) => {
     } else if (!username || !password || !verifyPassword) {
       setError("You must enter a username and password");
     } else {
-      register({ email: username, password }, setToken, setUserId);
+      register({ email: username, password }, handleSetSuccess, setUserId);
     }
-  };
-
-  const handleFormToggle = () => {
-    setError("");
-    setIsRegistering(!isRegistering);
   };
 
   return (
@@ -60,6 +70,7 @@ const Login = ({ setToken, setUserId }) => {
             />
           </div>
           {error && <text className="text-red-700">{error}</text>}
+          {success && <text className="text-green-700">Success</text>}
           <div className="mt-8">
             <button onClick={handleLoginClick} className="w-40 h-10 rounded-sm">
               Login
