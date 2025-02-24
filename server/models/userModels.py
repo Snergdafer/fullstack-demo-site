@@ -3,7 +3,6 @@ from sqlmodel import Field, SQLModel
 
 class UserBase(SQLModel):
     email: str
-    full_name: str | None = None
 
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -17,7 +16,6 @@ class UserCreate(UserBase):
 
 class UserUpdate(UserBase):
     email: str | None = None
-    full_name: str | None = None
     password: str | None = None
 
 

@@ -39,6 +39,7 @@ def update_item(todo_id: int, todo_item: TodoItemUpdate, session: SessionDep, lo
     session.add(todo_db)
     session.commit()
     session.refresh(todo_db)
+    list = session.exec(select(TodoItem)).all()
     return list
 
 # -------- DELETE --------
@@ -49,4 +50,5 @@ def delete_todo_item(todo_item_id: int, session: SessionDep, logged_in: Annotate
         raise HTTPException(status_code=404, detail="Todo not found")
     session.delete(todo)
     session.commit()
-    return {"ok": True}
+    list = session.exec(select(TodoItem)).all()
+    return list
