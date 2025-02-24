@@ -80,7 +80,7 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], sess
     )
     return Token(access_token=access_token, token_type="bearer")
 
-@router.post("/authentication/register", response_model=UserPublic)
+@router.post("/authentication/register")
 async def register_new_user(user: UserCreate, session: SessionDep):
     db_user = User.model_validate(user)
     hashed_password = pwd_context.hash(db_user.password)

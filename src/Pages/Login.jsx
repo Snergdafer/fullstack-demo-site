@@ -17,15 +17,15 @@ const Login = ({ setToken }) => {
   };
 
   const handleRegisterNewUser = () => {
-    if (password === setPassword) {
-      register({ username, password }, setToken);
+    if (password === verifyPassword) {
+      register({ email: username, password }, setToken);
     } else {
       setError("Passwords do not match");
     }
   };
 
   return (
-    <div className="flex flex-col w-110 h-100 mt-25 justify-center items-center bg-[#7998b3] rounded-2xl px-6">
+    <div className="flex flex-col w-110 h-100 mt-25 justify-center items-center bg-[#7998b3] rounded-2xl px-6 drop-shadow-xl">
       {!isRegistering ? (
         <>
           <h2 className="mb-12 mt-2 text-2xl font-bold">Login</h2>

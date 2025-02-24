@@ -17,7 +17,7 @@ export const register = (body, setToken) =>
   axios({
     method: "post",
     url: `${baseUrl}/authentication/register`,
-    data: JSON.stringify(body),
+    data: body,
   }).then((response) => {
     setToken(response.data.access_token);
   });
