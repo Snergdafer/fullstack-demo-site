@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.0.8",
     "axios": "^1.7.9",
+    "framer-motion": "^12.4.7",
     "js-cookie": "^3.0.5",
     "material-icons": "^1.13.14",
     "react": "^19.0.0",

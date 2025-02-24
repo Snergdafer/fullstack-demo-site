@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Todo from "./Todo";
 import { StatusOptions } from "../App";
+import { Reorder } from "framer-motion";
 
 const TodoList = ({ todos, setTodos, newTodo, setNewTodo, filterTodos }) => {
   const [statusFilter, setStatusFilter] = useState(null);
@@ -29,17 +30,19 @@ const TodoList = ({ todos, setTodos, newTodo, setNewTodo, filterTodos }) => {
           </select>
         </div>
       </div>
-      {newTodo && (
-        <Todo
-          todo={newTodo}
-          setTodos={setTodos}
-          isNew
-          setNewTodo={setNewTodo}
-        />
-      )}
-      {todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} setTodos={setTodos} />
-      ))}
+      <Reorder.Group values={todos} onReorder={setTodos}>
+        {newTodo && (
+          <Todo
+            todo={newTodo}
+            setTodos={setTodos}
+            isNew
+            setNewTodo={setNewTodo}
+          />
+        )}
+        {todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} setTodos={setTodos} />
+        ))}
+      </Reorder.Group>
     </div>
   );
 };
