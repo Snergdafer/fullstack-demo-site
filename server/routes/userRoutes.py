@@ -8,7 +8,7 @@ from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError
 from sqlmodel import select
 
-from server.models.userModels import User, UserPublic, UserCreate, Token
+from server.models.models import User, AuthenticationResponse, UserCreate, Token
 from server.database.database import SessionDep
 
 
@@ -76,9 +76,10 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], sess
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
+        data={"sub": user.email }, expires_delta=access_token_expires
     )
-    return Token(access_token=access_token, token_type="bearer")
+
+    return AuthenticationResponse(access_token=access_token, token_type="bearer", user_id=user.id)
 
 @router.post("/authentication/register")
 async def register_new_user(user: UserCreate, session: SessionDep):
@@ -88,11 +89,8 @@ async def register_new_user(user: UserCreate, session: SessionDep):
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
-    return access_token
+    return {"Ok": True}
+
 
 @router.post("/authentication/logout")
 async def read_root():

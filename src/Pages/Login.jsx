@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { login, register } from "../Api";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, setUserId }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
@@ -9,19 +9,32 @@ const Login = ({ setToken }) => {
   const [error, setError] = useState("");
 
   const handleLoginClick = () => {
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
+    setError("");
+    if (username && password) {
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
 
-    login(formData, setToken);
+      login(formData, setToken, setUserId);
+    } else {
+      setError("Enter a username and password");
+    }
   };
 
   const handleRegisterNewUser = () => {
-    if (password === verifyPassword) {
-      register({ email: username, password }, setToken);
-    } else {
+    setError("");
+    if (password !== verifyPassword) {
       setError("Passwords do not match");
+    } else if (!username || !password || !verifyPassword) {
+      setError("You must enter a username and password");
+    } else {
+      register({ email: username, password }, setToken, setUserId);
     }
+  };
+
+  const handleFormToggle = () => {
+    setError("");
+    setIsRegistering(!isRegistering);
   };
 
   return (
@@ -46,16 +59,14 @@ const Login = ({ setToken }) => {
               className="border-2 border-blue-300 rounded-md w-60 bg-gray-700 ml-auto"
             />
           </div>
+          {error && <text className="text-red-700">{error}</text>}
           <div className="mt-8">
             <button onClick={handleLoginClick} className="w-40 h-10 rounded-sm">
               Login
             </button>
           </div>
           <div className="mt-4">
-            <button
-              onClick={() => setIsRegistering(true)}
-              className="w-40 h-10 rounded-sm"
-            >
+            <button onClick={handleFormToggle} className="w-40 h-10 rounded-sm">
               Register
             </button>
           </div>
@@ -89,6 +100,7 @@ const Login = ({ setToken }) => {
               className="border-2 border-blue-300 rounded-md w-60 bg-gray-700 ml-auto"
             />
           </div>
+          {error && <text className="text-red-700">{error}</text>}
           <button
             onClick={handleRegisterNewUser}
             className="w-40 h-10 mt-8 rounded-sm"
@@ -96,7 +108,7 @@ const Login = ({ setToken }) => {
             Register
           </button>
           <button
-            onClick={() => setIsRegistering(false)}
+            onClick={handleFormToggle}
             className="w-40 h-10 mt-4 rounded-sm"
           >
             Cancel

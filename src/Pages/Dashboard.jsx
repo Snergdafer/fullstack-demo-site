@@ -4,7 +4,7 @@ import { StatusOptions } from "../App";
 import TodoList from "../Components/TodoList";
 import AccountButton from "../Components/AccountButton";
 
-const Dashboard = ({ setToken }) => {
+const Dashboard = ({ setToken, userId }) => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState(null);
   const [freshTodos, setFreshTodos] = useState([]);
@@ -15,8 +15,11 @@ const Dashboard = ({ setToken }) => {
   };
 
   useEffect(() => {
-    getTodos(setTodos);
-  }, []);
+    console.log("BEANS", userId);
+    if (userId) {
+      getTodos(userId, setFreshTodos);
+    }
+  }, [userId]);
 
   useEffect(() => {
     setTodos(freshTodos);
@@ -24,13 +27,6 @@ const Dashboard = ({ setToken }) => {
 
   const handleSetTodos = (newTodos) => {
     newTodos ? setFreshTodos(newTodos) : setTodos([]);
-  };
-
-  const createTodo = () => {
-    setNewTodo({
-      name: "",
-      status: StatusOptions.todo,
-    });
   };
 
   const filterTodos = (filter) => {
@@ -83,6 +79,7 @@ const Dashboard = ({ setToken }) => {
           newTodo={newTodo}
           setNewTodo={setNewTodo}
           filterTodos={filterTodos}
+          userId={userId}
         />
       </div>
     </div>

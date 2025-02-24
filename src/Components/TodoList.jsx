@@ -3,7 +3,14 @@ import Todo from "./Todo";
 import { StatusOptions } from "../App";
 import { Reorder } from "framer-motion";
 
-const TodoList = ({ todos, setTodos, newTodo, setNewTodo, filterTodos }) => {
+const TodoList = ({
+  todos,
+  setTodos,
+  newTodo,
+  setNewTodo,
+  filterTodos,
+  userId,
+}) => {
   const [statusFilter, setStatusFilter] = useState(null);
 
   const handleFilterChange = (value) => {
@@ -14,9 +21,9 @@ const TodoList = ({ todos, setTodos, newTodo, setNewTodo, filterTodos }) => {
   return (
     <div className="flex flex-col h-full w-2/3 bg-[#c8d7e6] rounded-lg drop-shadow-lg align-middle mx-auto px-6 mt-12">
       <div className="flex items-center justify-between h-20">
-        <text className="text-lg text-gray-800">Todo List:</text>
+        <text className="text-lg text-gray-700 font-semibold">Todo List:</text>
         <div>
-          <text className="mr-1 text-gray-800">Filter By: </text>
+          <text className="mr-1 text-gray-700 font-semibold">Filter By: </text>
           <select
             name="select"
             onChange={(e) => handleFilterChange(e.target.value)}
@@ -37,10 +44,11 @@ const TodoList = ({ todos, setTodos, newTodo, setNewTodo, filterTodos }) => {
             setTodos={setTodos}
             isNew
             setNewTodo={setNewTodo}
+            userId={userId}
           />
         )}
         {todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} setTodos={setTodos} />
+          <Todo key={todo.id} todo={todo} setTodos={setTodos} userId={userId} />
         ))}
       </Reorder.Group>
     </div>

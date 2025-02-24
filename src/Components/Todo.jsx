@@ -3,7 +3,13 @@ import { useState } from "react";
 import { StatusOptions } from "../App";
 import { Reorder } from "framer-motion";
 
-const Todo = ({ todo, setTodos, isNew = false, setNewTodo = () => {} }) => {
+const Todo = ({
+  todo,
+  setTodos,
+  isNew = false,
+  setNewTodo = () => {},
+  userId,
+}) => {
   const [isSelected, setIsSelected] = useState(isNew);
   const [todoName, setTodoName] = useState(todo.name);
   const [todoStatus, setTodoStatus] = useState(todo.status);
@@ -12,7 +18,11 @@ const Todo = ({ todo, setTodos, isNew = false, setNewTodo = () => {} }) => {
   const handleUpdateTodo = () => {
     if (isNew) {
       if (todoName && todoStatus) {
-        createTodo({ name: todoName, status: todoStatus }, setTodos);
+        createTodo(
+          userId,
+          { name: todoName, status: todoStatus, user_id: userId },
+          setTodos,
+        );
         setNewTodo(null);
       } else {
         setError("Todos need a name and a status");
@@ -29,7 +39,7 @@ const Todo = ({ todo, setTodos, isNew = false, setNewTodo = () => {} }) => {
       }
 
       if (updatedTodo) {
-        updateTodo(todo.id, updatedTodo, setTodos);
+        updateTodo(userId, todo.id, updatedTodo, setTodos);
       }
 
       setIsSelected(false);
@@ -40,7 +50,7 @@ const Todo = ({ todo, setTodos, isNew = false, setNewTodo = () => {} }) => {
     if (isNew) {
       setNewTodo(null);
     } else {
-      deleteTodo(todo.id, setTodos);
+      deleteTodo(userId, todo.id, setTodos);
     }
   };
 
