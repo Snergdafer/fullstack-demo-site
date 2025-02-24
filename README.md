@@ -1,11 +1,11 @@
 # Setup
 
-npm i
+npm i  
 npm run dev
 
 # In a seperate terminal
 
-python -m venv .venv
-source .venv/bin/activate
-pip install "fastapi[standard]"
+python -m venv .venv  
+source .venv/bin/activate  
+pip install "fastapi[standard]"  
 fastapi dev server/main.py
